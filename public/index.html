@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Checklist Dashboard</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rule</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="checklist-results"></tbody>
+        </table>
+    </div>
+    <script>
+        fetch('/checklist')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('checklist-results');
+                data.forEach(rule => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${rule.name}</td>
+                        <td class="${rule.status.toLowerCase()}">${rule.status}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(err => console.error('Error:', err));
+    </script>
+</body>
+
+</html>
